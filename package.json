@@ -1,0 +1,17 @@
+{
+    "name": "api-google-signin-netcore",
+    "author": "gusals@gmail.com",
+    "version": "1.0.0",
+    "devDependencies": {
+        "husky": "^4.2.5",
+        "lint-staged": "^10.2.9"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged -r"
+        }
+    },
+    "scripts": {
+        "preinstall": "dotnet tool restore"
+    }
+}

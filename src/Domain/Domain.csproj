@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <NullableReferenceTypes>true</NullableReferenceTypes>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\Domain.xml</DocumentationFile>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>dotnet format</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType></DebugType>
+    <DocumentationFile>bin\Release\netcoreapp3.1\Domain.xml</DocumentationFile>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>dotnet format</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Profiles\" />
+    <Folder Include="ValueObjects\" />
+    <Folder Include="Enumerations\" />
+    <Folder Include="Members\" />
+    <Folder Include="RefreshTokens\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Gusals.Extensions" Version="0.0.1" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <NullableReferenceTypes>true</NullableReferenceTypes>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\Infrastructure.xml</DocumentationFile>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>dotnet format</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType></DebugType>
+    <DocumentationFile>bin\Release\netcoreapp3.1\Infrastructure.xml</DocumentationFile>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>dotnet format</command>
+          <workingdir>${SolutionDir}</workingdir>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.51.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GoogleApis\" />
+    <Folder Include="DataAccess\" />
+    <Folder Include="DataAccess\Configurations\" />
+    <Folder Include="DataAccess\Factories\" />
+    <Folder Include="DataAccess\Repositories\" />
+    <Folder Include="Tokens\" />
+  </ItemGroup>
+</Project>
