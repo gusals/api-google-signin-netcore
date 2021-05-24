@@ -1,5 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Application.Services;
+using Infrastructure.HttpContexts;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Westwind.AspNetCore.LiveReload;
@@ -20,6 +22,7 @@ namespace WebApi.Modules
         {
             services
                 .AddHttpContextAccessor()
+                .AddScoped<IHttpContextService, HttpContextService>()
                 .AddLiveReload()
                 .AddRouting(routeOptions => routeOptions.LowercaseUrls = true)
                 .AddMvc(mvcOptions =>
@@ -27,7 +30,7 @@ namespace WebApi.Modules
                     mvcOptions.OutputFormatters.RemoveType<TextOutputFormatter>();
                     mvcOptions.OutputFormatters.RemoveType<StreamOutputFormatter>();
                     mvcOptions.RespectBrowserAcceptHeader = true;
-                    mvcOptions.Filters.Add(item: new ExceptionFilter());
+                    //mvcOptions.Filters.Add(item: new ExceptionFilter());
                 })
                 .AddJsonOptions(jsonOptions =>
                 {

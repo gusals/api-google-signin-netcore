@@ -15,6 +15,7 @@ namespace Application.UseCases.OAuthSignin
     {
         private readonly IProfileService _profileService;
         private readonly ITokenService _tokenService;
+        private readonly IHttpContextService _httpContextService;
         private readonly IMemberFactory _memberFactory;
         private readonly IRefreshTokenFactory _refreshTokenFactory;
         private readonly IMemberRepository _memberRepository;
@@ -27,6 +28,7 @@ namespace Application.UseCases.OAuthSignin
         /// </summary>
         /// <param name="profileService">Profile Service.</param>
         /// <param name="tokenService">Token Service.</param>
+        /// <param name="httpContextService">HttpContext Service.</param>
         /// <param name="memberFactory">Member Factory.</param>
         /// <param name="refreshTokenFactory">RefreshToken Factory.</param>
         /// <param name="memberRepository">Member Repository.</param>
@@ -35,6 +37,7 @@ namespace Application.UseCases.OAuthSignin
         public OAuthSigninUseCase(
             IProfileService profileService,
             ITokenService tokenService,
+            IHttpContextService httpContextService,
             IMemberFactory memberFactory,
             IRefreshTokenFactory refreshTokenFactory,
             IMemberRepository memberRepository,
@@ -43,6 +46,7 @@ namespace Application.UseCases.OAuthSignin
         {
             _profileService = profileService;
             _tokenService = tokenService;
+            _httpContextService = httpContextService;
             _memberFactory = memberFactory;
             _refreshTokenFactory = refreshTokenFactory;
             _memberRepository = memberRepository;
@@ -67,6 +71,7 @@ namespace Application.UseCases.OAuthSignin
 
             if (profilePayload is Profile profile)
             {
+                var nowAt = DateTime.UtcNow;
                 var username = new Email(value: profile.Username);
                 var token = _tokenService.GenerateToken(username: profile.Username, name: profile.FullName);
                 var memberEntity = await _memberRepository.Get(provider: provider, username: username).ConfigureAwait(continueOnCapturedContext: false);
@@ -84,7 +89,8 @@ namespace Application.UseCases.OAuthSignin
                     fullName: profile.FullName,
                     surname: profile.Surname,
                     givenName: profile.GivenName,
-                    profileUri: profile.ProfileUri);
+                    profileUri: profile.ProfileUri,
+                    registeredAt: nowAt);
                 await _memberRepository.Add(member: newMemberEntity).ConfigureAwait(continueOnCapturedContext: false);
 
                 var newRefreshTokenEntity = _refreshTokenFactory.Create(
@@ -92,7 +98,7 @@ namespace Application.UseCases.OAuthSignin
                     memberId: newMemberEntity.Id,
                     value: token.RefreshToken,
                     expiresAt: token.ExpiresIn.ToDateTime(),
-                    createdByIp: new IpAddress(),
+                    createdByIp: _httpContextService.GetIpAddress(),
                     createdAt: token.IssuedIn.ToDateTime());
                 await _refreshTokenRepository.Add(refreshToken: newRefreshTokenEntity).ConfigureAwait(continueOnCapturedContext: false);
 

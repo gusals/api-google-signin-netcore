@@ -9,8 +9,9 @@
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <DocumentationFile>bin\Debug\netcoreapp3.1\Application.xml</DocumentationFile>
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net5.0\Application.xml</DocumentationFile>
     <CustomCommands>
       <CustomCommands>
         <Command>
@@ -22,8 +23,7 @@
     </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType></DebugType>
-    <DocumentationFile>bin\Release\netcoreapp3.1\Application.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net5.0\Application.xml</DocumentationFile>
     <CustomCommands>
       <CustomCommands>
         <Command>

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Application.Services;
+using Infrastructure.GoogleApis;
 using Infrastructure.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebApi.Modules.Flags;
 
 namespace WebApi.Modules
 {
@@ -26,24 +28,16 @@ namespace WebApi.Modules
             var issuer = configuration.GetValue<string>("AuthenticationModule:Issuer");
             var expires = 20d;
 
-            void JwtBearer(JwtBearerOptions jwtBearerOptions)
-            {
-                jwtBearerOptions.TokenValidationParameters = services.BuildServiceProvider().GetRequiredService<JsonWebTokenSettings>().TokenValidationParameters();
-                jwtBearerOptions.Events.OnMessageReceived = messageReceivedContext =>
-                {
-                    if (messageReceivedContext.Request.Cookies.ContainsKey("X-Access-Token"))
-                        messageReceivedContext.Token = messageReceivedContext.Request.Cookies["X-Access-Token"];
-                    return Task.CompletedTask;
-                };
-            }
-
             services
+                .AddScoped<IProfileService, GoogleProfileService>()
+                .AddScoped<ITokenService, TokenService>()
                 .AddJsonWebToken(
                     securityKey: signingKey,
                     expires: TimeSpan.FromMinutes(value: expires),
                     issuer: issuer)
                 .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearer);
+                .AddJwtBearer(jwtBearerOptions =>
+                    jwtBearerOptions.TokenValidationParameters = services.BuildServiceProvider().GetRequiredService<JsonWebTokenSettings>().TokenValidationParameters());
             return services;
         }
 

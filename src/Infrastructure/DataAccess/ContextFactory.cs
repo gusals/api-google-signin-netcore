@@ -20,7 +20,7 @@ namespace Infrastructure.DataAccess
             dbContextOptionsBuilder
                 .UseMySql(
                     connectionString: ReadContentConnectionStringFromAppSettings(),
-                    serverVersion: new MySqlServerVersion(version: new Version(8, 0, 21)))
+                    serverVersion: new MySqlServerVersion(version: new Version(8, 0, 23)))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             return new MemberContext(options: dbContextOptionsBuilder.Options);

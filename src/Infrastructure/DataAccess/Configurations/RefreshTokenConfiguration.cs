@@ -23,40 +23,50 @@ namespace Infrastructure.DataAccess.Configurations
             entityTypeBuilder.ToTable("refresh_token");
 
             entityTypeBuilder.Property(refreshToken => refreshToken.Id)
+                .HasColumnName("id")
+                .HasColumnType("bigint(20)")
                 .HasConversion(
                     id => id.Value,
                     id => new RefreshTokenId(id))
                 .IsRequired();
 
-            entityTypeBuilder.Property(refreshToken => refreshToken.Value)
-                .IsRequired();
-
-            entityTypeBuilder.Property(refreshToken => refreshToken.ExpiresAt)
-                .IsRequired();
-
-            entityTypeBuilder.Property(refreshToken => refreshToken.CreatedByIp)
-                .HasConversion(
-                    createdByIp => createdByIp.Value,
-                    createdByIp => new IpAddress(createdByIp))
-                .IsRequired();
-
-            entityTypeBuilder.Property(refreshToken => refreshToken.CreatedAt)
-                .IsRequired();
-
-            entityTypeBuilder.Property(refreshToken => refreshToken.RevokedByIp)
-                .HasConversion(
-                    revokedByIp => revokedByIp.Value,
-                    revokedByIp => new IpAddress(revokedByIp))
-                .IsRequired();
-
-            entityTypeBuilder.Property(refreshToken => refreshToken.RevokedAt)
-                .IsRequired();
-
             entityTypeBuilder.Property(refreshToken => refreshToken.MemberId)
+                .HasColumnName("member_id")
+                .HasColumnType("bigint(20)")
                 .HasConversion(
                     memberId => memberId.Value,
                     memberId => new MemberId(memberId))
                 .IsRequired();
+
+            entityTypeBuilder.Property(refreshToken => refreshToken.Value)
+                .HasColumnName("value")
+                .HasColumnType("varchar(500)")
+                .IsRequired();
+
+            entityTypeBuilder.Property(refreshToken => refreshToken.ExpiresAt)
+                .HasColumnName("expires_at")
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("current_timestamp")
+                .IsRequired();
+
+            entityTypeBuilder.Property(refreshToken => refreshToken.CreatedByIp)
+                .HasColumnName("created_by_ip")
+                .HasColumnType("varchar(15)")
+                .IsRequired();
+
+            entityTypeBuilder.Property(refreshToken => refreshToken.CreatedAt)
+                .HasColumnName("created_at")
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("current_timestamp")
+                .IsRequired();
+
+            entityTypeBuilder.Property(refreshToken => refreshToken.RevokedByIp)
+                .HasColumnName("revoked_by_ip")
+                .HasColumnType("varchar(15)");
+
+            entityTypeBuilder.Property(refreshToken => refreshToken.RevokedAt)
+                .HasColumnName("revoked_at")
+                .HasColumnType("datetime");
         }
     }
 }

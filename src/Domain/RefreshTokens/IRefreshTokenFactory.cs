@@ -23,7 +23,7 @@ namespace Domain.RefreshTokens
             MemberId memberId,
             string value,
             DateTime expiresAt,
-            IpAddress createdByIp,
+            string createdByIp,
             DateTime createdAt);
     }
 }

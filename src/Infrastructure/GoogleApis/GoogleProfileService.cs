@@ -10,7 +10,7 @@ namespace Infrastructure.GoogleApis
     public sealed class GoogleProfileService : IProfileService
     {
         private readonly IConfiguration _configuration;
-        private readonly string _cliet_id;
+        private readonly string _client_id;
         private readonly string _client_secret;
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Infrastructure.GoogleApis
         public GoogleProfileService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _cliet_id = _configuration.GetValue<string>("AuthenticationModule:Google:ClientId");
+            _client_id = _configuration.GetValue<string>("AuthenticationModule:Google:ClientId");
             _client_secret = _configuration.GetValue<string>("AuthenticationModule:Google:ClientSecret");
         }
 
@@ -29,7 +29,7 @@ namespace Infrastructure.GoogleApis
         {
             try
             {
-                var payload = await ValidateAsync(idToken, new ValidationSettings { Audience = new[] { _cliet_id } }).ConfigureAwait(false);
+                var payload = await ValidateAsync(idToken, new ValidationSettings { Audience = new[] { _client_id } }).ConfigureAwait(false);
                 return new Profile(
                     username: payload.Email,
                     fullName: payload.Name,

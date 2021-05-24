@@ -13,7 +13,7 @@ namespace Infrastructure.DataAccess.Factories
             MemberId memberId,
             string value,
             DateTime expiresAt,
-            IpAddress createdByIp,
+            string createdByIp,
             DateTime createdAt) =>
                 new(
                     id: id,

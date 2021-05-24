@@ -1,4 +1,5 @@
-﻿using Domain.Enumerations;
+﻿using System;
+using Domain.Enumerations;
 using Domain.ValueObjects;
 
 namespace Domain.Members
@@ -18,6 +19,7 @@ namespace Domain.Members
         /// <param name="surname">성.</param>
         /// <param name="givenName">명.</param>
         /// <param name="profileUri">프로필 주소.</param>
+        /// <param name="registeredAt">가입 일시.</param>
         public Member(
             MemberId id,
             ProviderTypes provider,
@@ -25,7 +27,8 @@ namespace Domain.Members
             string fullName,
             string surname,
             string givenName,
-            string profileUri)
+            string profileUri,
+            DateTime registeredAt)
         {
             Id = id;
             Provider = provider;
@@ -34,6 +37,7 @@ namespace Domain.Members
             Surname = surname;
             GivenName = givenName;
             ProfileUri = profileUri;
+            RegisteredAt = registeredAt;
         }
 
         /// <summary>
@@ -70,5 +74,10 @@ namespace Domain.Members
         /// 프로필 주소.
         /// </summary>
         public string ProfileUri { get; }
+
+        /// <summary>
+        /// 가입 일시.
+        /// </summary>
+        public DateTime RegisteredAt { get; }
     }
 }

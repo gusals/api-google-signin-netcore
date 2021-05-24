@@ -9,16 +9,16 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.Modules.Flags;
 using WebApi.ViewModels;
 
-namespace WebApi.UseCases.V1.Logins
+namespace WebApi.UseCases.V1.Authentications
 {
     /// <summary>
-    /// Logins Controller.
+    /// Authentication Controller.
     /// </summary>
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    public sealed class LoginsController : ControllerBase, IOutputPort
+    public class AuthenticationsController : ControllerBase, IOutputPort
     {
         private IActionResult? _viewModel;
 
@@ -27,15 +27,15 @@ namespace WebApi.UseCases.V1.Logins
         {
             Response.Cookies.Append(key: CookieName.ACCESS_TOKEN, value: token.AccessToken, options: new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
             Response.Cookies.Append(key: CookieName.REFRESH_TOKEN, value: token.RefreshToken, options: new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
-            _viewModel = Ok(value: new LoginResponse(member: new MemberModel(username: member.Username, name: member.FullName, profileUri: member.ProfileUri)));
+            _viewModel = Ok(value: new AuthenticationResponse(profile: new ProfileModel(id: member.Id, username: member.Username, name: member.FullName, profileUri: member.ProfileUri)));
         }
         void IOutputPort.Created(Token token, Member member)
         {
             Response.Cookies.Append(key: CookieName.ACCESS_TOKEN, value: token.AccessToken, options: new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
             Response.Cookies.Append(key: CookieName.REFRESH_TOKEN, value: token.RefreshToken, options: new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
             _viewModel = Created(
-                uri: Url.Link(routeName: RouteName.GET_MEMBER, values: new { id = member.Id }),
-                value: new LoginResponse(member: new MemberModel(username: member.Username, name: member.FullName, profileUri: member.ProfileUri)));
+                uri: Url.Link(routeName: RouteName.GET_USER, values: new { id = member.Id.ToString() }),
+                value: new AuthenticationResponse(profile: new ProfileModel(id: member.Id, username: member.Username, name: member.FullName, profileUri: member.ProfileUri)));
         }
 
         /// <summary>
@@ -44,15 +44,15 @@ namespace WebApi.UseCases.V1.Logins
         /// <remarks>
         /// 구글 OAuth 로그인 후, 회원 가입과 Token 정보를 가져온다.
         /// </remarks>
-        /// <response code="201">Login Member.</response>
-        /// <response code="201">New Member.</response>
+        /// <response code="200">Existing User.</response>
+        /// <response code="201">New User.</response>
         /// <response code="400">Bad Request.</response>
         /// <param name="useCase">Use Case.</param>
         /// <param name="token">Google IdToken.</param>
-        /// <returns><see cref="LoginResponse"/></returns>
-        [HttpPost("Google", Name = RouteName.GOOGLE_LOGIN)]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponse))]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(LoginResponse))]
+        /// <returns><see cref="AuthenticationResponse"/></returns>
+        [HttpPost("google", Name = RouteName.AUTHENTICATE_GOOGLE)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthenticationResponse))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AuthenticationResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(
             [FromServices] IOAuthSigninUseCase useCase,

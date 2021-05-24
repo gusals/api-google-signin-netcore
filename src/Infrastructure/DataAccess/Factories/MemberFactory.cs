@@ -1,4 +1,5 @@
-﻿using Domain.Enumerations;
+﻿using System;
+using Domain.Enumerations;
 using Domain.Members;
 using Domain.ValueObjects;
 
@@ -15,7 +16,8 @@ namespace Infrastructure.DataAccess.Factories
             string fullName,
             string surname,
             string givenName,
-            string profileUri) =>
+            string profileUri,
+            DateTime registeredAt) =>
                 new(
                     id: id,
                     provider: provider,
@@ -23,6 +25,7 @@ namespace Infrastructure.DataAccess.Factories
                     fullName: fullName,
                     surname: surname,
                     givenName: givenName,
-                    profileUri: profileUri);
+                    profileUri: profileUri,
+                    registeredAt: registeredAt);
     }
 }

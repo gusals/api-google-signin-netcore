@@ -6,13 +6,13 @@
     public sealed class RouteName
     {
         /// <summary>
-        /// GET /members/:id
+        /// GET /users/:id
         /// </summary>
-        public const string GET_MEMBER = "GetMember";
+        public const string GET_USER = "GetUser";
 
         /// <summary>
-        /// POST /logins/google
+        /// POST /authentications/google
         /// </summary>
-        public const string GOOGLE_LOGIN = "GoogleLogin";
+        public const string AUTHENTICATE_GOOGLE = "AuthenticateGoogle";
     }
 }

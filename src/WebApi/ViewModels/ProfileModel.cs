@@ -4,22 +4,29 @@ using Domain.ValueObjects;
 namespace WebApi.ViewModels
 {
     /// <summary>
-    /// Member Model.
+    /// Profile Model.
     /// </summary>
-    public sealed class MemberModel
+    public sealed class ProfileModel
     {
         /// <summary>
         /// MemberModel Constructor.
         /// </summary>
+        /// <param name="id">사용자 식별자.</param>
         /// <param name="username">사용자 이름.</param>
         /// <param name="name">이름.</param>
         /// <param name="profileUri">프로필 주소.</param>
-        public MemberModel(Email username, string name, string profileUri)
+        public ProfileModel(MemberId id, Email username, string name, string profileUri)
         {
+            Id = id.ToString();
             Username = username.Value;
             Name = name;
             ProfileUri = profileUri;
         }
+
+        /// <summary>
+        /// 사용자 식별자.
+        /// </summary>
+        [Required] public string Id { get; }
 
         /// <summary>
         /// 사용자 이름.

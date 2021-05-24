@@ -22,7 +22,7 @@ namespace Domain.RefreshTokens
             MemberId memberId,
             string value,
             DateTime expiresAt,
-            IpAddress createdByIp,
+            string createdByIp,
             DateTime createdAt)
         {
             Id = id;
@@ -31,8 +31,6 @@ namespace Domain.RefreshTokens
             ExpiresAt = expiresAt;
             CreatedByIp = createdByIp;
             CreatedAt = createdAt;
-            RevokedByIp = createdByIp;
-            RevokedAt = createdAt;
         }
 
         /// <summary>
@@ -53,7 +51,7 @@ namespace Domain.RefreshTokens
         /// <summary>
         /// 생성한 아이피.
         /// </summary>
-        public IpAddress CreatedByIp { get; }
+        public string CreatedByIp { get; }
 
         /// <summary>
         /// 생성한 일시.
@@ -63,12 +61,12 @@ namespace Domain.RefreshTokens
         /// <summary>
         /// 취소한 아이피.
         /// </summary>
-        public IpAddress RevokedByIp { get; }
+        public string? RevokedByIp { get; }
 
         /// <summary>
         /// 취소한 일시. 
         /// </summary>
-        public DateTime RevokedAt { get; }
+        public DateTime? RevokedAt { get; }
 
         /// <summary>
         /// 회원 고유 식별자.

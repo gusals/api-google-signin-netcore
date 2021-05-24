@@ -6,12 +6,12 @@
     <NullableReferenceTypes>true</NullableReferenceTypes>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <DocumentationFile>bin\Debug\netcoreapp3.1\WebApi.xml</DocumentationFile>
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net5.0\WebApi.xml</DocumentationFile>
     <CustomCommands>
       <CustomCommands>
         <Command>
@@ -23,8 +23,8 @@
     </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType></DebugType>
-    <DocumentationFile>bin\Release\netcoreapp3.1\WebApi.xml</DocumentationFile>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\net5.0\WebApi.xml</DocumentationFile>
     <CustomCommands>
       <CustomCommands>
         <Command>
@@ -45,20 +45,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\" />
-    <Folder Include="UseCases\" />
-    <Folder Include="Modules\Swaggers\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="UseCases\V1\" />
-    <Folder Include="UseCases\V1\Logins\" />
     <Folder Include="Modules\Flags\" />
+    <Folder Include="Modules\Swaggers\" />
+    <Folder Include="UseCases\" />
+    <Folder Include="UseCases\V1\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="UseCases\V1\Authentications\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
-    <PackageReference Include="Westwind.AspNetCore.LiveReload" Version="0.3.1" />
+    <PackageReference Include="Westwind.AspNetCore.LiveReload" Version="0.3.2" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="4.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
